@@ -300,3 +300,132 @@ ON products.category_id = categories.category_id
 WHERE categories.name = 'Electronics';
 */
 
+---- CHALLENGE
+-- Find all product names along with their ID numbers that belong to the category named 'Electronics'
+
+/*
+SELECT products.product_id, products.name
+FROM products
+JOIN categories
+ON products.category_id = categories.category_id
+WHERE categories.name = 'Electronics';
+*/
+
+---- MATHEMATICAL FUNCTIONS
+
+/*
+SELECT ABS(-2.6); -- Absolute value
+
+SELECT CEIL(2.3); -- Highest integer possible (round up)
+
+SELECT FLOOR(2.7); -- Lowest integer possible (round down)
+
+SELECT ROUND(2.3456, 2); -- The first term is the number to round, the scond term indicates the total number of decimal places requiered for the output.
+
+SELECT SQRT(4.0); -- the output will also include decimals
+
+SELECT ROUND(SQRT(4.0), 0); -- can nest functions to have specific results
+*/
+
+---- DATE FUNCTIONS
+/*
+SELECT CURRENT_DATE;
+SELECT EXTRACT(DAY FROM CURRENT_DATE); -- The output will be the number of calendar day of the month
+SELECT EXTRACT(MONTH FROM CURRENT_DATE); -- The output will be the number of the month per calendar year
+SELECT EXTRACT(YEAR FROM CURRENT_DATE); -- The output will be the current year in a 4 digit format
+*/
+
+/*
+-- This uses another function(date specific) instead of extract
+SELECT date_part('day', CURRENT_DATE); 
+SELECT date_part('month', CURRENT_DATE);
+SELECT date_part('year', CURRENT_DATE);
+*/
+
+-- Date Truncate will indicate the start of the [variable] period, full date + time
+/*
+SELECT date_trunc('day', CURRENT_DATE); -- Start of the day (the hour)
+SELECT date_trunc('month', CURRENT_DATE); -- Start of Month (the day and hour)
+SELECT date_trunc('year', CURRENT_DATE); -- Start of Year (the month, day and hour)
+*/
+
+-- Finding the age of someone or something
+/*
+SELECT age(timestamp '2019-06-03'); -- The output will give how many years, months and days
+*/
+
+-- Calculating the age between two dates
+/*
+SELECT age(timestamp '2025-01-01', timestamp '2025-01-31');
+*/
+
+-- Converting string into date (enabling date functions)
+/*
+SELECT to_date('01/01/2025', 'DD/MM/YYYY'); -- The output will be a date in the system format, not in the order that was written. The written order indcates which section of the string belongs to which part of the date.
+*/
+
+-- Applying a specific order to the date
+/*
+SELECT to_char(CURRENT_DATE, 'DD-MM-YYYY'); -- The output will arrange the current date as defined in the function.
+*/
+
+---- TIME FUNCTIONS
+/*
+SELECT current_time; -- time with timezone
+SELECT current_timestamp; -- date with time and timezone
+SELECT localtime; -- just the time
+SELECT localtimestamp; -- date and time (no timezone)
+*/
+-- Notes
+-- extract: Extracts a specific part of a date/time value. Useful for retrieving individual components of a date/time value
+/*
+SELECT extract(hour from order_timestamp) from orders;
+SELECT extract(minute from order_timestamp) from orders;
+SELECT EXTRACT(second from order_timestamp) from orders;
+*/
+-- Notes
+-- date_trunc: Truncates a date/time value to a specified precision (hour, day, month, etc). Useful for rounding down to the nearest specified unit
+/*
+SELECT date_trunc('day', order_timestamp) from orders; -- focuses on the day, updating the time to the start of day
+SELECT date_trunc('month', order_timestamp) from orders; -- focuses on the month, updating the day and time to the start of the month
+SELECT date_trunc('year', order_timestamp) from orders; -- focuses on the year, updating the month, day and time to the start of the year
+SELECT age(order_timestamp) FROM orders; -- how old is the data
+SELECT age(delivery_timestamp, order_timestamp) from orders;
+SELECT CURRENT_TIMESTAMP at time zone 'America/New_York';
+*/
+
+---- STRING FUNCTIONS: CONCATENATION AND TRIMMING
+/*
+SELECT city || address from customer; -- Concatenates the defined columns
+SELECT city || '--' || address from customer; -- Concatenates the defined columns and includes a separator in between
+SELECT concat(city, address) from customer;
+SELECT concat_ws('-', city, address) from customer;
+select trim('   hello   ');
+SELECT ltrim('   hello   ');
+SELECT rtrim('   hello   ');
+SELECT btrim('   hello   ');
+SELECT trim('xX' from 'XxHelloxX'); -- case sensitive, if the data trying to be trimmed is not on the edge it will not trim it
+SELECT TRIM('#' from '##test##');
+*/
+
+---- STRING FUNCTIONS: CHANGING CASE AND EXTRACTING SUBSTRINGS
+/*
+SELECT upper(customer_name) from customer; -- all characters are capitalized
+SELECT lower(customer_name) from customer; -- all characters are in lower case
+SELECT initcap(customer_name) from customer; -- each first letter will be capitalized and the rest in lower case
+SELECT SUBSTRING('Hello from here' from 1 for 5); -- (from #) start position, (for #) the number of characters
+SELECT SUBSTRING('Hello from here' from 7 for 4);
+SELECT LEFT('Hello from here', 5); -- will return the first 5 characters from the string
+SELECT RIGHT('Hello from here', 4); -- will return the last 4 characters from the sting
+SELECT POSITION('here' in 'Hello from here'); -- if the string we are searching for exist on the string we are searchong on, then it will return the position of where the searched string starts in the string being searched on.
+SELECT position('not' in 'Hello from here'); -- if the string we are searching for does not exist within the string we are lookin into, then it will return 0
+SELECT length('Hello from here'); -- will return how many characters the string is comprised of
+*/
+
+---- CHALLENGE: PLANY WITH STRINGS
+-- tags in products need to be init cap
+/*
+SELECT initcap(tags) 
+from products;
+*/
+
